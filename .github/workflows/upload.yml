@@ -1,0 +1,31 @@
+name: DDL to Gofile Uploader
+
+on:
+  workflow_dispatch:  # Allows you to manually trigger the button
+
+jobs:
+  process-uploads:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+
+    - name: Run Backend Script
+      run: python backend.py
+
+    - name: Upload Logs Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Gofile-Links-Log
+        path: gofile_logs.txt
